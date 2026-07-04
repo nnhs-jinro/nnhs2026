@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI 탐구 도우미</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.5/purify.min.js"></script>
+<style>
+  /* ================= 설정은 아래 <script> 상단에서 ================= */
+  :root{
+    --bg:#FBFAF7; --surface:#FFFFFF; --ink:#20242B; --ink-soft:#6B7280;
+    --line:#E8E5DE; --accent:#E8702A; --accent-soft:#FBEADD;
+    --user:#20242B; --radius:14px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:"Pretendard Variable",Pretendard,-apple-system,sans-serif;
+    background:var(--bg); color:var(--ink); font-size:15px; line-height:1.65;
+  }
+  .app{max-width:760px; margin:0 auto; height:100dvh; display:flex; flex-direction:column;}
+
+  /* ---- 헤더 ---- */
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 18px; border-bottom:1px solid var(--line); background:var(--bg);
+  }
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand .dot{width:10px; height:10px; border-radius:50%; background:var(--accent);}
+  .brand h1{font-size:16px; font-weight:700; letter-spacing:-0.01em;}
+  .quota{
+    font-size:12.5px; color:var(--ink-soft); background:var(--surface);
+    border:1px solid var(--line); border-radius:999px; padding:5px 12px;
+  }
+  .quota b{color:var(--accent); font-weight:700;}
+
+  /* ---- 입장 화면 ---- */
+  .gate{
+    flex:1; display:flex; flex-direction:column; align-items:center;
+    justify-content:center; gap:18px; padding:24px; text-align:center;
+  }
+  .gate .mark{width:14px; height:14px; border-radius:50%; background:var(--accent);}
+  .gate h2{font-size:22px; font-weight:800; letter-spacing:-0.02em;}
+  .gate p{color:var(--ink-soft); font-size:14px; max-width:340px;}
+  .gate form{display:flex; gap:8px; width:100%; max-width:340px; margin-top:6px;}
+  .gate input{
+    flex:1; padding:13px 16px; border:1px solid var(--line); border-radius:var(--radius);
+    font:inherit; background:var(--surface); outline:none;
+  }
+  .gate input:focus{border-color:var(--accent);}
+  .gate button{
+    padding:13px 20px; border:0; border-radius:var(--radius); background:var(--ink);
+    color:#fff; font:inherit; font-weight:600; cursor:pointer;
+  }
+  .gate .err{color:#C0392B; font-size:13px; min-height:18px;}
+
+  /* ---- 대화 영역 ---- */
+  .chat{flex:1; overflow-y:auto; padding:20px 18px 8px; display:none;}
+  .msg{display:flex; margin-bottom:14px;}
+  .msg.user{justify-content:flex-end;}
+  .bubble{
+    max-width:82%; padding:11px 15px; border-radius:var(--radius);
+    word-break:break-word;
+  }
+  .msg.user .bubble{background:var(--user); color:#fff; border-bottom-right-radius:4px;}
+  .msg.ai .bubble{
+    background:var(--surface); border:1px solid var(--line);
+    border-bottom-left-radius:4px;
+  }
+  .bubble p+p{margin-top:8px;}
+  .bubble pre{
+    background:#F3F1EC; border-radius:8px; padding:10px 12px; overflow-x:auto;
+    font-size:13px; margin:8px 0;
+  }
+  .bubble code{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.92em;}
+  .bubble ul,.bubble ol{padding-left:20px; margin:6px 0;}
+  .bubble table{border-collapse:collapse; margin:8px 0; font-size:13.5px;}
+  .bubble th,.bubble td{border:1px solid var(--line); padding:5px 9px;}
+  .notice{
+    text-align:center; font-size:12.5px; color:var(--ink-soft);
+    background:var(--accent-soft); border-radius:10px; padding:9px 12px; margin:10px 0;
+  }
+  .typing{display:inline-flex; gap:4px; padding:4px 2px;}
+  .typing span{
+    width:6px; height:6px; border-radius:50%; background:var(--ink-soft);
+    animation:blink 1.2s infinite;
+  }
+  .typing span:nth-child(2){animation-delay:.2s;}
+  .typing span:nth-child(3){animation-delay:.4s;}
+  @keyframes blink{0%,80%,100%{opacity:.25} 40%{opacity:1}}
+
+  /* ---- 입력창 ---- */
+  .composer{
+    display:none; gap:8px; padding:12px 18px calc(14px + env(safe-area-inset-bottom));
+    border-top:1px solid var(--line); background:var(--bg);
+  }
+  .composer textarea{
+    flex:1; resize:none; max-height:130px; padding:12px 15px; font:inherit;
+    border:1px solid var(--line); border-radius:var(--radius);
+    background:var(--surface); outline:none;
+  }
+  .composer textarea:focus{border-color:var(--accent);}
+  .composer button{
+    align-self:flex-end; width:46px; height:46px; border:0; border-radius:var(--radius);
+    background:var(--accent); color:#fff; font-size:18px; cursor:pointer; flex-shrink:0;
+  }
+  .composer button:disabled{opacity:.4; cursor:default;}
+  @media (prefers-reduced-motion: reduce){ .typing span{animation:none;} }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand"><span class="dot"></span><h1 id="appTitle">AI 탐구 도우미</h1></div>
+    <div class="quota" id="quota" hidden>오늘 남은 질문 <b id="remaining">–</b>회</div>
+  </header>
+
+  <!-- 입장 화면 -->
+  <div class="gate" id="gate">
+    <span class="mark"></span>
+    <h2 id="gateTitle">AI 탐구 도우미</h2>
+    <p>학번을 입력하면 시작할 수 있어요.<br>하루에 사용할 수 있는 질문 횟수가 정해져 있으니 아껴서 사용하세요.</p>
+    <form id="gateForm">
+      <input id="studentId" placeholder="학번 (예: 10101)" autocomplete="off" maxlength="20">
+      <button type="submit">시작하기</button>
+    </form>
+    <div class="err" id="gateErr"></div>
+  </div>
+
+  <!-- 대화 화면 -->
+  <div class="chat" id="chat"></div>
+  <div class="composer" id="composer">
+    <textarea id="input" rows="1" placeholder="궁금한 것을 물어보세요"></textarea>
+    <button id="send" title="보내기">↑</button>
+  </div>
+</div>
+
+<script>
+/* ======================= 설정 (여기만 수정) ======================= */
+const API_URL   = "https://qkobozaezuhgjlbvbtkz.supabase.co/functions/v1/chat";
+const APP_TITLE = "AI 탐구 도우미";           // 프로젝트 이름으로 변경 가능
+/* ================================================================ */
+
+document.getElementById("appTitle").textContent = APP_TITLE;
+document.getElementById("gateTitle").textContent = APP_TITLE;
+document.title = APP_TITLE;
+
+const gate = document.getElementById("gate");
+const chat = document.getElementById("chat");
+const composer = document.getElementById("composer");
+const quotaBox = document.getElementById("quota");
+const remainingEl = document.getElementById("remaining");
+const input = document.getElementById("input");
+const sendBtn = document.getElementById("send");
+
+let studentId = localStorage.getItem("studentId") || "";
+let history = [];   // {role, content}
+let busy = false;
+
+function enterChat(){
+  gate.style.display = "none";
+  chat.style.display = "block";
+  composer.style.display = "flex";
+  quotaBox.hidden = false;
+  addNotice(`${studentId} 님, 환영합니다. AI의 답변은 틀릴 수 있으니 중요한 내용은 꼭 직접 확인하세요.`);
+  input.focus();
+}
+
+document.getElementById("gateForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const v = document.getElementById("studentId").value.trim();
+  if (!/^[가-힣a-zA-Z0-9]{2,20}$/.test(v)){
+    document.getElementById("gateErr").textContent = "학번은 2~20자의 숫자·한글·영문으로 입력해 주세요.";
+    return;
+  }
+  studentId = v;
+  localStorage.setItem("studentId", v);
+  enterChat();
+});
+if (studentId) enterChat();
+
+function addNotice(text){
+  const d = document.createElement("div");
+  d.className = "notice"; d.textContent = text;
+  chat.appendChild(d); scrollDown();
+}
+function addBubble(role, html){
+  const wrap = document.createElement("div");
+  wrap.className = "msg " + (role === "user" ? "user" : "ai");
+  const b = document.createElement("div");
+  b.className = "bubble";
+  if (role === "user") b.textContent = html; else b.innerHTML = html;
+  wrap.appendChild(b); chat.appendChild(wrap); scrollDown();
+  return b;
+}
+function scrollDown(){ chat.scrollTop = chat.scrollHeight; }
+function render(md){ return DOMPurify.sanitize(marked.parse(md)); }
+
+input.addEventListener("input", () => {
+  input.style.height = "auto";
+  input.style.height = Math.min(input.scrollHeight, 130) + "px";
+});
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey && !e.isComposing){
+    e.preventDefault(); send();
+  }
+});
+sendBtn.addEventListener("click", send);
+
+async function send(){
+  const text = input.value.trim();
+  if (!text || busy) return;
+  busy = true; sendBtn.disabled = true;
+  input.value = ""; input.style.height = "auto";
+
+  addBubble("user", text);
+  history.push({ role: "user", content: text });
+
+  const aiBubble = addBubble("ai",
+    '<div class="typing"><span></span><span></span><span></span></div>');
+
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ studentId, messages: history }),
+    });
+
+    if (!res.ok){
+      const data = await res.json().catch(() => ({}));
+      aiBubble.innerHTML = render("⚠️ " + (data.error || "오류가 발생했습니다. 잠시 후 다시 시도해 주세요."));
+      history.pop();
+      return;
+    }
+
+    const rem = res.headers.get("x-remaining");
+    if (rem !== null) remainingEl.textContent = rem;
+
+    // SSE 스트리밍 파싱
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "", answer = "";
+
+    while (true){
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split("\n");
+      buffer = lines.pop();
+      for (const line of lines){
+        const t = line.trim();
+        if (!t.startsWith("data:")) continue;
+        const payload = t.slice(5).trim();
+        if (payload === "[DONE]") continue;
+        try {
+          const delta = JSON.parse(payload).choices?.[0]?.delta?.content;
+          if (delta){
+            answer += delta;
+            aiBubble.innerHTML = render(answer);
+            scrollDown();
+          }
+        } catch {}
+      }
+    }
+
+    if (!answer) aiBubble.innerHTML = render("⚠️ 응답을 받지 못했습니다. 다시 시도해 주세요.");
+    else history.push({ role: "assistant", content: answer });
+
+  } catch (err){
+    aiBubble.innerHTML = render("⚠️ 네트워크 오류가 발생했습니다. 인터넷 연결을 확인해 주세요.");
+    history.pop();
+  } finally {
+    busy = false; sendBtn.disabled = false; input.focus();
+  }
+}
+</script>
+</body>
+</html>
