@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>남녕고 열정꿈락(진로진학박람회) | 선배들의 과목 선택 · 탐구 이야기</title>
+<style>
+  :root{
+    --paper:#FBF8F1; --card:#FFFFFF; --ink:#1C2A44; --ink-soft:#4A566E; --line:#E7E0D3;
+    --tangerine:#EF7A45; --tangerine-deep:#D5602E;
+    --shadow:0 1px 2px rgba(28,42,68,.04), 0 6px 20px rgba(28,42,68,.06);
+    --font:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",system-ui,-apple-system,sans-serif;
+    --hum:#4A6C93;--hum-bg:#EAF0F6; --soc:#B0862E;--soc-bg:#F5EDDA; --sci:#2E7D6F;--sci-bg:#E3F0EC;
+    --med:#C05A5A;--med-bg:#F6E9E9; --edu:#6B5B95;--edu-bg:#ECE9F3; --art:#A8547E;--art-bg:#F5E8F0;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  header{padding:34px 20px 20px;max-width:1180px;margin:0 auto;}
+  .eyebrow{font-size:13px;letter-spacing:.14em;font-weight:700;color:var(--tangerine-deep);margin:0 0 10px;}
+  h1{margin:0 0 14px;font-weight:800;letter-spacing:-.02em;line-height:1.12;}
+  h1 .title-main{display:block;font-size:clamp(30px,5.8vw,54px);}
+  h1 .title-main .paren{font-weight:700;}
+  h1 .title-sub{display:block;margin-top:12px;font-size:clamp(17px,2.9vw,25px);font-weight:600;color:var(--ink-soft);letter-spacing:-.01em;}
+  .lede{max-width:660px;font-size:15.5px;color:var(--ink-soft);margin:0;}
+  .lede b{color:var(--ink);font-weight:600;}
+  .controls-wrap{position:sticky;top:0;z-index:20;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .controls{max-width:1180px;margin:0 auto;padding:14px 20px;display:flex;flex-wrap:wrap;gap:14px 22px;align-items:flex-start;}
+  .filter-group{display:flex;flex-direction:column;gap:6px;}
+  .filter-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--ink-soft);}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;}
+  .chip{border:1px solid var(--line);background:var(--card);color:var(--ink-soft);font-family:inherit;font-size:13.5px;font-weight:600;padding:7px 13px;border-radius:999px;cursor:pointer;transition:all .15s;}
+  .chip:hover{border-color:var(--tangerine);color:var(--tangerine-deep);}
+  .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .chip .n{opacity:.55;font-weight:600;margin-left:3px;font-size:12px;}
+  .chip[aria-pressed="true"] .n{opacity:.75;}
+  .search-group{flex:1;min-width:220px;display:flex;flex-direction:column;gap:6px;}
+  .search-box{position:relative;}
+  .search-box input{width:100%;font-family:inherit;font-size:14.5px;color:var(--ink);padding:9px 14px 9px 38px;border:1px solid var(--line);border-radius:10px;background:var(--card);outline:none;transition:border-color .15s;}
+  .search-box input:focus{border-color:var(--tangerine);}
+  .search-box svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--ink-soft);fill:none;}
+  .toggle{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-soft);cursor:pointer;user-select:none;padding-top:22px;}
+  .toggle input{accent-color:var(--tangerine);width:15px;height:15px;cursor:pointer;}
+  .count-line{max-width:1180px;margin:0 auto;padding:16px 20px 4px;font-size:13.5px;color:var(--ink-soft);}
+  .count-line b{color:var(--tangerine-deep);font-weight:700;}
+  main{max-width:1180px;margin:0 auto;padding:8px 20px 60px;}
+  .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(325px,1fr));}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;transition:transform .12s,box-shadow .12s;}
+  .card:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(28,42,68,.06),0 14px 34px rgba(28,42,68,.10);}
+  .card-top{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+  .badge{font-size:11.5px;font-weight:700;padding:4px 9px;border-radius:6px;}
+  .b-jh{background:#F3EDDF;color:#8A6D2A;}
+  .track{font-size:11.5px;font-weight:700;padding:4px 9px;border-radius:6px;display:inline-flex;align-items:center;gap:5px;}
+  .track::before{content:"";width:7px;height:7px;border-radius:50%;}
+  .t-hum{background:var(--hum-bg);color:var(--hum);} .t-hum::before{background:var(--hum);}
+  .t-soc{background:var(--soc-bg);color:var(--soc);} .t-soc::before{background:var(--soc);}
+  .t-sci{background:var(--sci-bg);color:var(--sci);} .t-sci::before{background:var(--sci);}
+  .t-med{background:var(--med-bg);color:var(--med);} .t-med::before{background:var(--med);}
+  .t-edu{background:var(--edu-bg);color:var(--edu);} .t-edu::before{background:var(--edu);}
+  .t-art{background:var(--art-bg);color:var(--art);} .t-art::before{background:var(--art);}
+  .major{font-size:19px;font-weight:800;letter-spacing:-.01em;line-height:1.3;margin:2px 0 0;}
+  .name{font-size:12.5px;color:var(--ink-soft);font-weight:500;margin-top:3px;}
+  .topic-block{border-top:1px dashed var(--line);padding-top:12px;}
+  .topic-label{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--tangerine-deep);margin-bottom:5px;}
+  .topic{font-size:16px;font-weight:700;line-height:1.4;color:var(--ink);margin:0 0 10px;}
+  .reason{font-size:13.5px;color:var(--ink-soft);margin:0;border-left:2px solid var(--tangerine);padding-left:11px;}
+  .meta{border-top:1px dashed var(--line);padding-top:11px;display:flex;flex-direction:column;gap:7px;}
+  .row{display:flex;gap:8px;font-size:12.5px;align-items:baseline;}
+  .row .k{flex:0 0 66px;color:var(--ink-soft);font-weight:700;font-size:11.5px;}
+  .row .v{color:var(--ink);flex:1;}
+  details.courses summary{cursor:pointer;color:var(--hum);font-weight:600;font-size:12px;list-style:none;display:inline-flex;align-items:center;gap:4px;}
+  details.courses summary::-webkit-details-marker{display:none;}
+  details.courses summary::before{content:"▸";font-size:10px;transition:transform .15s;}
+  details.courses[open] summary::before{transform:rotate(90deg);}
+  details.courses .courses-body{margin-top:6px;color:var(--ink-soft);line-height:1.5;font-size:12.5px;}
+  .empty{text-align:center;padding:70px 20px;color:var(--ink-soft);}
+  .empty strong{display:block;font-size:17px;color:var(--ink);margin-bottom:6px;}
+  footer{max-width:1180px;margin:0 auto;padding:26px 20px 46px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:12.5px;}
+  footer b{color:var(--ink);}
+  .hide-name .name{display:none;}
+  @media (max-width:560px){.grid{grid-template-columns:1fr;} header{padding-top:26px;} .toggle{padding-top:0;}}
+</style>
+</head>
+<body>
+<header>
+  <h1><span class="title-main">남녕고 열정꿈락<span class="paren">(진로진학박람회)</span></span><span class="title-sub">선배들의 과목 선택 / 고등학교 탐구 이야기</span></h1>
+  <p class="lede">가고 싶은 <b>계열</b>로 걸러 보고, 관심 키워드로 검색해 보세요. 각 카드는 <b>진학한 학과</b>와 <b>가장 기억에 남는 탐구 주제</b>·<b>그 이유</b>를 중심으로 정리했습니다. 과목을 고르기 전, 나와 비슷한 진로의 선배가 무엇을 어떻게 파고들었는지 살펴보세요.</p>
+</header>
+
+<div class="controls-wrap">
+  <div class="controls">
+    <div class="filter-group">
+      <span class="filter-label">계열</span>
+      <div class="chips" id="tr-chips"></div>
+    </div>
+    <div class="search-group">
+      <span class="filter-label">검색 (학과·주제·과목)</span>
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+        <input id="search" type="search" placeholder="예: 교육, 생명과학, 무선충전, 심리, 지리, 디자인..." autocomplete="off">
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="count-line"><b id="count">56</b>명의 선배 사례를 보고 있어요.</p>
+
+<main>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none">
+    <strong>조건에 맞는 사례가 없어요</strong>
+    필터를 줄이거나 다른 키워드로 검색해 보세요.
+  </div>
+</main>
+
+<footer>
+  <p><b>배포 방법.</b> 이 파일을 학교 홈페이지·구글 사이트·진로 노션에 올리거나, 무료 호스팅(예: Netlify Drop) 링크로 만든 뒤 <b>QR 코드</b>로 각 학급·진로실에 붙여두면 학생들이 휴대폰으로 바로 열어 볼 수 있습니다. 인터넷 없이 파일만 열어도 작동합니다.</p>
+  <p style="margin-top:10px;opacity:.85">※ 계열 태그는 <b>진학 학과</b>를 기준으로 6개(인문 · 사회 · 자연·공학 · 의약·생명 · 교육 · 예체능)로 분류했습니다. 자유전공 등 경계에 있는 학과는 탐구 내용을 참고해 배치했으니 참고용으로 봐 주세요.</p>
+</footer>
+
+<script>
+const DATA = [{"major": "과학교육학부 생물교육전공", "track": "edu", "gs": "언어와 매체 · 미적분", "tg": "생명과학Ⅰ, 생명과학Ⅱ", "cs": "여행지리, 환경, 물·생·지Ⅱ (과학중점 3학년)", "topic": "편광을 이용한 행성 모방", "reason": "지구과학 쪽 계열을 희망했을 때 가장 적합한 주제라 선정해 인상 깊었음."}, {"major": "사회교육과", "track": "edu", "gs": "화법과 작문 · 확률과 통계", "tg": "생활과 윤리, 사회문화", "cs": "국제경제, 심화국어, 현대문학감상, 사회문제탐구, 한국지리, 사회문화, 정치와 법, 생활과 윤리, 윤리와 사상, 화법과 작문, 확률과 통계", "topic": "생활과 과학 — 지속 가능한 나만의 학교 기획", "reason": "사회교육과 희망자에게 과학이 진로와 멀어 보일 수 있지만, 친환경 기술로 학생들이 배우는 공간을 직접 설계하며 교육에 대한 관심과 열정을 드러낼 수 있었던 주제."}, {"major": "KU자유전공학부", "track": "med", "gs": "언어와 매체 · 미적분", "tg": "생명과학Ⅰ, 지구과학Ⅰ", "cs": "(2학년 과학중점) 3학년 미적분, 확통 / 물Ⅱ·생Ⅱ·화Ⅱ, 생명과학실험", "topic": "안토시아닌을 이용한 항산화 의약품 제작(2학년 NCCPC) → 바이오필름 제거(3학년 동아리)", "reason": "2학년은 과학중점이라 선택권이 없었고, 3학년 때는 생명과학 관련 탐구를 깊게 하고 싶어서."}, {"major": "관광경영학과", "track": "soc", "gs": "화법과 작문 · 확률과 통계", "tg": "한국지리, 세계지리", "cs": "한국지리, 세계지리, 일본어, 사회문화, 생활과 윤리, 영미문학", "topic": "브릭스 라우셔 화학 반응 실험 (사이언스데이)", "reason": "진로·전공과는 관련 없지만 사이언스데이 때 진행한 실험이라 가장 기억에 남음. 수능 선택을 지리로 정해두고 교과목을 맞춤."}, {"major": "에너지바이오대학", "track": "med", "gs": "언매 · 미적", "tg": "생명, 지구", "cs": "과학중점 과목", "topic": "탈세포화", "reason": "한 번의 실험으로 끝나지 않고 이어서 탐구했기 때문."}, {"major": "전기전자공학부", "track": "sci", "gs": "언어와 매체 · 미적분", "tg": "물리학Ⅰ, 지구과학Ⅰ", "cs": "물리Ⅰ·Ⅱ, 화학Ⅰ·Ⅱ, 생명Ⅰ·Ⅱ, 지구Ⅰ, 기하, 미적분, 확통, 프로그래밍, 언어와 매체, 세계문제와 미래사회", "topic": "자기공진을 활용한 무선 전력 전송 (2학년 NCCPC)", "reason": "물리에 자신이 있었고, 지구과학이 다른 과탐보다 합리적으로 보여서 선택."}, {"major": "수산생명의학과", "track": "med", "gs": "언어와 매체 · 미적분", "tg": "사회탐구, 생활과 윤리, 사회문화", "cs": "물Ⅰ·화Ⅰ·생Ⅰ·지Ⅰ, 물Ⅱ·화Ⅱ·생Ⅱ·지Ⅱ, 미적분, 확통, 심화수학, 생명과학실험", "topic": "생명과학Ⅰ — 생태계 (녹조 발생 원인 및 해결방안 자유주제)", "reason": "과학중점과정 이수 및 희망 진로 분야에 생명과학실험이 도움이 될 것이라 생각."}, {"major": "도시계획부동산학과", "track": "soc", "gs": "언어와 매체 · 확률과 통계", "tg": "사회문화, 생활과 윤리", "cs": "사회문화, 경제, 생활과 윤리, 세계지리, 정치와 법", "topic": "환경 불평등", "reason": "소득에 따른 불평등이 환경 면에서도 적용되는지 알아보며 GIS를 사용했는데, 이후 대학 지원에 큰 도움이 되었음."}, {"major": "지리교육과", "track": "edu", "gs": "화법과 작문 · 확률과 통계", "tg": "생활과 윤리, 세계지리", "cs": "한국지리, 윤리와 사상, 사회문화, 사회문제탐구, 영어권문화, 세계지리, 생활과 윤리, 여행지리, 중국어, 확통, 화작, 세계문제와 미래사회", "topic": "하논 분화구 · 네트워크 도시 형성하기", "reason": "대학 면접 때 물어봤던 주제들이기 때문."}, {"major": "심리학과", "track": "soc", "gs": "화법과 작문 · 확률과 통계", "tg": "생활과 윤리, 윤리와 사상", "cs": "문학, 화작, 심화국어, 심화영어, 생명Ⅰ·Ⅱ, 윤리와 사상, 생활과 윤리, 고전과 윤리, 세계문제와 미래사회, 사회문화, 미술, 수학Ⅰ·Ⅱ, 확통 등", "topic": "주제탐구 — 심리학 재현성 문제", "reason": "관심 있는 학과에 대한 주제를 탐구하며 희망 학과에 대한 확신을 키울 수 있었음."}, {"major": "시스템생명공학과", "track": "med", "gs": "(모름)", "tg": "생명과학Ⅰ, 지구과학Ⅰ", "cs": "과학중점과정 이수", "topic": "생명계열 — disk diffusion method, PCR", "reason": "실제 대학에서 실습해봐서 기억에 남음."}, {"major": "법학과", "track": "soc", "gs": "언매 · 확통", "tg": "정치와 법, 사회문화", "cs": "사회문화, 윤리와 사상, 한국지리, 언매, 확통, 일본어, 생활과 윤리, 정치와 법", "topic": "정치와 법", "reason": "완전 문과라 과탐 없이 하고 싶었고, 2학년 때 사문을 끝내놔 국·수에 시간을 투자하고자 사문을 택함. 정치와 법은 재밌어서 선택."}, {"major": "체육교육과", "track": "art", "gs": "언매 · 확통", "tg": "생활과 윤리, 정치와 법", "cs": "윤리와 사상, 사회문화, 한국지리", "topic": "장애학생 대상 체육수업 구성방안", "reason": "수강자 수가 많아 등급을 잘 받을 수 있을 것 같았음."}, {"major": "AI빅데이터학과", "track": "sci", "gs": "화법과 작문 · 확률과 통계", "tg": "생명과학Ⅰ, 지구과학Ⅰ", "cs": "물Ⅰ·Ⅱ, 화Ⅰ·Ⅱ, 생Ⅰ·Ⅱ, 지Ⅰ·Ⅱ, 정보과학, 기하, 중국어", "topic": "정보과학 팀프로젝트 — 학생 설문 데이터를 EDA·모델링(랜덤 포레스트)해 최적 시험 시간표 도출", "reason": "학교생활의 실제 문제를 코딩으로 해결한 활동. 모든 면접에서 관련 질문을 받을 만큼 관심을 끎. 생기부엔 파이썬 statistics 모듈로 인사이트를 도출하고 C언어 구조체로 데이터를 정리해 협업을 주도했다고 기재됨."}, {"major": "과학교육과 지구과학교육전공", "track": "edu", "gs": "화법과 작문 · 미적분", "tg": "지구과학, 생명과학", "cs": "물·화·생·지 Ⅰ·Ⅱ, 생활과 윤리 (과학중점 이수)", "topic": "NCCPC 주제탐구발표 · 사이언스데이", "reason": "진로 선택·입시·대학생활 모두에 큰 도움. 흥미 있는 과학 과목을 찾을 수 있었고, 특히 면접에서 유리했으며 대학에서도 밑거름이 됨."}, {"major": "일어일문학과", "track": "hum", "gs": "화작 · 확통", "tg": "생활과 윤리, 윤리와 사상", "cs": "고전과 윤리, 고전읽기, 생활과 과학, 일본어Ⅰ, 일본어회화Ⅰ, 세계사, 정법, 생윤, 윤사, 화작", "topic": "일본어 — 나츠메 소세키의 문형 탐구", "reason": "일어일문과에 적합한 주제이고, 문형을 탐구하며 한 작가가 현대 일본 언어생활에 미친 영향까지 알아본 탐구라 기억에 남음."}, {"major": "사회복지학과", "track": "soc", "gs": "언어와 매체 · 확률과 통계", "tg": "한국지리, 세계지리", "cs": "(2학년) 한국지리, 윤리와 사상, 일본어, 논술, 고전읽기 / (3학년) 세계지리, 여행지리, 심화영어, 고전문학감상, 세계문제와 미래사회", "topic": "① 사회실험 콘텐츠는 더 좋은 사회를 만드는가(2학년) ② 도시재생 정책이 원거주민에 미치는 영향(3학년, 젠트리피케이션)", "reason": "지리 내신이 잘 나와 모의고사·수능 선택으로 이어짐. 한국지리 인문지리 파트는 사회복지학과 연결지어 탐구할 부분이 많았음."}, {"major": "의예과", "track": "med", "gs": "언매 · 미적", "tg": "물리, 생명(과탐)", "cs": "언매, 미적, 확통, 물·화·생·지Ⅰ, 물·화·생Ⅱ", "topic": "알츠하이머", "reason": "의료 분야와 연계하려고."}, {"major": "경영학부", "track": "soc", "gs": "언매 · 확통", "tg": "한국지리, 세계사", "cs": "(2학년) 한지, 사문, 세계사, 영어권문화 / (3학년) 언매, 확통, 정법, 세지, 국제경제", "topic": "스위프트노믹스(경제·사문) / 스포츠 관련 DEA 분석법", "reason": "암기에 자신이 있어 그 위주로 선택. 수능 최저까지 고려해 언매·확통을 택함."}, {"major": "글로벌리더학부(법학과)", "track": "soc", "gs": "언매 · 확통", "tg": "생활과 윤리, 정치와 법", "cs": "(2학년) 윤사, 한국지리, 사회문화 / (3학년) 정법, 생윤", "topic": "가상국가 만들기 프로젝트 · 모의 유엔 · 국제 포럼 활동", "reason": "생윤에 나오는 여러 학자들의 견해에 깊은 관심이 있었고, 생기부를 국제법·정치외교 분야로 작성해와 정치와 법에도 자신이 있었다."}, {"major": "한양 인터칼리지학부", "track": "sci", "gs": "언어와 매체 · 미적분", "tg": "사회문화, 생명과학Ⅰ", "cs": "물Ⅰ·화Ⅰ·생Ⅰ·지Ⅰ, 기하, 물Ⅱ·화Ⅱ·생Ⅱ, 화학실험, 미적분, 확통", "topic": "교과융합 — 전해질 소재에 따른 배터리 효율 측정 및 개선(고3)", "reason": "다양한 과학 과목을 수강해 과목 간 유기성을 파악하고 체계적인 탐구 주제를 세우려는 생각, 여러 분야 실험을 접할 기대감."}, {"major": "윤리교육과", "track": "edu", "gs": "화법과 작문 · 확률과 통계", "tg": "생활과 윤리, 윤리와 사상", "cs": "현대문학감상, 윤리와 사상, 한국지리, 중국어Ⅰ, 사회문제탐구, 화작, 확통, 영어독해와작문, 정치와 법, 생윤, 심화국어, 심화수학Ⅰ, 고전과 윤리, 생활과 과학, 체육탐구, (공동교육과정 단체·육상운동)", "topic": "케톤체가 운동수행능력에 미치는 영향", "reason": "경희대 면접에서 오직 이 탐구만 질문받음. 젖산이 어떻게 다시 ATP로 활용되는지 그 기전과 전부 전환되는지 물어봄."}, {"major": "식물생산과학부", "track": "sci", "gs": "화법과 작문 · 미적분", "tg": "물리학Ⅰ, 지구과학Ⅰ", "cs": "화작, 미적, 확통, 기하, 물Ⅰ·Ⅱ, 화Ⅰ·Ⅱ, 생Ⅰ·Ⅱ, 지Ⅰ, 영어", "topic": "국어·생명과학 융합 — 항암제 관련 탐구", "reason": "여러 과목에서 같은 분야로 주제를 잡는 것이 효율적이고 더 깊은 탐구가 가능하다 느낌."}, {"major": "소프트웨어학부", "track": "sci", "gs": "언어와 매체 · 미적분", "tg": "물리학Ⅰ, 생명과학Ⅰ", "cs": "물Ⅰ·Ⅱ, 화Ⅰ·Ⅱ, 생Ⅰ·Ⅱ, 지Ⅰ, 물리학실험, 기하, 미적분, 확통, 프로그래밍, 언어와 매체", "topic": "수Ⅱ 주제탐구 — 공간에서의 미분(3차원 다변수·벡터함수의 미분)", "reason": "3년간의 주제탐구 중 억지로 짜낸 게 아니라 평소에도 궁금해했던 주제였기 때문."}, {"major": "노인체육복지학과", "track": "art", "gs": "화법과 작문 · 확률과 통계", "tg": "사회탐구", "cs": "물Ⅰ·화Ⅰ·생Ⅰ·지Ⅰ, 물Ⅱ·화Ⅱ·생Ⅱ", "topic": "커피 찌꺼기를 이용한 바이오매스 추출", "reason": "과학중점을 유지하면서 체육 입시를 진행함."}, {"major": "국어교육과", "track": "edu", "gs": "언어와 매체 · 확률과 통계", "tg": "생활과 윤리, 윤리와 사상", "cs": "윤리와 사상, 일본어, 사회·문화, 현대국어, 미술감상, 확통, 언매, 생윤, 정치와 법, 심화국어, 고전과 윤리, 세계문제와 미래사회, 일본어회화", "topic": "국어 교과서 문법 내용과 다른 문법 관점", "reason": "문법이 수학처럼 딱 정해진 줄 알았는데 여러 관점이 있는 학문임을 알게 됨. 학문 문법과 학교 문법의 차이가 학생 이해 수준에 맞추려는 데서 생긴다는 것을 직접 교과서 출판사에 문의해 탐구해 더 기억에 남음."}, {"major": "시스템반도체공학과", "track": "sci", "gs": "화법과 작문 · 미적분", "tg": "사회문화, 지구과학Ⅰ", "cs": "수Ⅰ·Ⅱ, 미적, 확통, 독서, 문학, 화작, 물·화·생·지Ⅰ, 물·화·지Ⅱ", "topic": "물리Ⅰ 전자기 유도 기반 자기공진 방식 무선충전기 제작 실험", "reason": "수능에서도 중요한 과목들이며 내가 조언해줄 수 있는 과목이기 때문."}, {"major": "회계학과", "track": "soc", "gs": "화작 · 확통", "tg": "사회(윤리 과목)", "cs": "윤리와 사상, 생활과 윤리, 지리", "topic": "확통 시간에 진행한 저출산 관련 과제", "reason": "다양한 시선으로 조사하고 긍정적으로 결과를 내며 공부할 수 있어 좋았음."}, {"major": "K-pop학과", "track": "art", "gs": "화법과 작문 · 확률과 통계", "tg": "세계지리, 생활과 윤리", "cs": "세계지리, 한국지리, 사회문화, 생활과 윤리", "topic": "세계 음악 장르의 특징과 음악이 사람들에게 주는 영향", "reason": "선택한 교과목들이 케이팝에 대해 다양한 주제를 잡을 수 있게 해주기 때문."}, {"major": "간호학과", "track": "med", "gs": "언어와 매체 · 확률과 통계", "tg": "생명과학Ⅰ, 생명과학Ⅱ", "cs": "기하, 물Ⅰ·화Ⅰ·생Ⅰ·지Ⅰ, 물Ⅱ·생Ⅱ·지Ⅱ, 생명과학실험, 미적분", "topic": "NCCPC — 양미역취의 항산화·항균 작용에 대한 연구", "reason": "과학중점과정 수료를 위해서."}, {"major": "소프트웨어학부 (데이터사이언스전공)", "track": "sci", "gs": "화법과 작문 · 확률과 통계", "tg": "생활과 윤리, 사회문화", "cs": "화작, 심화국어, 확통, 기하, 한국지리, 사회문화, 생윤, 윤사, 여행지리, 사회문제탐구, 생활과 과학, 미술창작, 논술", "topic": "토크인 — 모더니즘 시대의 의자 디자인 경향", "reason": "논문도 직접 읽고, 담당 선생님께 피드백도 열정적으로 받으며 고교 탐구 중 가장 열심히 준비한 활동."}, {"major": "음악교육과", "track": "art", "gs": "화법과 작문 · 미적분", "tg": "생활과 윤리, 사회·문화", "cs": "사회·문화, 윤리와 사상, 현대문학감상, 사회문제탐구, 음악연주, 정보과학, 화작, 확통, 영어독해와작문, 생윤, 심화국어, 심화영어독해Ⅰ, 고전과 윤리, 생활과 과학, 음악전공실기, 프로그래밍", "topic": "사회문제탐구 — 인식을 중심으로 한 아동학대의 원인과 해결방안", "reason": "아동학대 도서·기사를 읽으며 '만날 아이들의 배경은 다양하겠구나, 교사로서 무엇을 할 수 있을까'를 고민. 음악가가 아닌 음악을 하는 '선생님'으로서 어떤 사람이 되어야 할지 되짚게 한 탐구."}, {"major": "행정학과", "track": "soc", "gs": "화법과 작문 · 확률과 통계", "tg": "생활과 윤리, 사회문화", "cs": "윤리와 사상, 경제, 사회문화, 정치와 법, 생활과 윤리", "topic": "코즈모폴리턴 동아리 — 이주노동자 탐구", "reason": "면접 때 나온 질문이고 가장 많은 노력을 해서 기억에 남음."}, {"major": "스포츠과학전공 (체육교직·경영 복수전공)", "track": "art", "gs": "화법과 작문 · 확률과 통계", "tg": "세계지리, 생활과 윤리", "cs": "세계지리, 여행지리, 생활과 윤리, 사회와 문화, 한국지리", "topic": "독서토크", "reason": "대학 입시와 공부에도 유용했음."}, {"major": "UNIST", "track": "sci", "gs": "화작 · 미적", "tg": "물리, 사회문화", "cs": "(2학년) 물·화·생·지Ⅰ, 미술 / (3학년) 물리Ⅱ, 화학Ⅱ, 지구과학Ⅱ, 물리학실험", "topic": "사이언스데이 — 이온트랩 실험", "reason": "정말 어렵고 고교에서 불가능한 실험이었지만, 많은 실패 요인과 양자 원리를 뜯어보며 고민해 많은 것을 알게 되었기 때문."}, {"major": "한양 인터칼리지학부", "track": "med", "gs": "언매 · 미적분", "tg": "생명과학Ⅰ, 지구과학Ⅰ", "cs": "(2학년) 국·수·영, 물화생지Ⅰ / (3학년) 언매, 미적분, 확통, 영어, 물화생Ⅱ, 고전과 윤리, 생명과학실험", "topic": "나노코팅기술 → 알지네이트 비드(사이언스데이) → 비드 생성·방출 전후 약물 활성 비교(동아리)", "reason": "융합컨퍼런스에서 나노코팅을 알게 되어 약물 전달 시스템에 접목, 이를 확장해 다양한 고분자 하이브리드 소재로 비드를 만들어 약물 전달 활용 가능성을 탐구함."}, {"major": "독일언어문화학과", "track": "hum", "gs": "화작 · 확통", "tg": "생활과 윤리, 윤리와 사상", "cs": "윤사, 생윤, 화작, 확통, 보건, 사문, 사문탐, 세계문제와 미래사회, 한국지리, 여행지리", "topic": "OTT 서비스의 영화 산업 침공", "reason": "수시에서 최대한 많은 탐구 과목을 접해보고 그중 적성에 가장 맞는 과목을 선정."}, {"major": "POSTECH", "track": "sci", "gs": "언어와 매체 · 미적분", "tg": "화학Ⅰ, 생명과학Ⅰ", "cs": "물Ⅰ·화Ⅰ·생Ⅰ·지Ⅰ, 물Ⅱ·화Ⅱ·생Ⅱ, 국제경제", "topic": "생명과학Ⅱ — 알로스테릭 조절", "reason": "탐구하면서 가장 즐거웠고 퀄리티가 높았음."}, {"major": "한국어문학부", "track": "hum", "gs": "언어와 매체 · 확률과 통계", "tg": "한국지리, 세계지리", "cs": "한국지리, 세계지리, 사회문화, 생활과 윤리, 확통", "topic": "토크인 — 제주 방언 탐구", "reason": "학교에서 배운 사회탐구 과목 중 지리가 가장 재미있었음."}, {"major": "의생명시스템학부", "track": "med", "gs": "언매 · 미적분", "tg": "과학탐구(물리, 생명과학)", "cs": "과학 Ⅰ·Ⅱ 과목, 기하, 사회탐구, (과학중점 이수)", "topic": "생명 — 패혈증의 활동 기전·치료 탐구 / 교과융합 — 물리+문학으로 춘향전 그네 탐구", "reason": "한 질병을 정해 왜 발생하고 어떻게 치료하는지 알아보며 프로젝트 초기 단계를 직접 경험. 한 과목만이 아니라 다른 과목과 엮어 생각하며 시야가 넓어짐."}, {"major": "교육학과", "track": "edu", "gs": "화법과 작문 · 확률과 통계", "tg": "세계지리, 사회문화", "cs": "문학, 독서, 화작, 수Ⅰ·Ⅱ, 확통, 영어독해와작문, 한국지리, 세계사, 사회문화, 사회문제탐구, 세계지리, 정치와 법, 국제경제, 경제수학, 한문Ⅱ, 철학, 생활과 과학", "topic": "미디어 리터러시와 군중심리(사문탐) → 2022 개정교육과정 변경점 → 미디어 리터러시 교육과정 분석 (3년 연계)", "reason": "2학년의 두 탐구가 합쳐져 3학년 탐구가 연계성 있게 진행되어 좋은 평가를 받음."}, {"major": "기계공학과", "track": "sci", "gs": "화법과 작문 · 미적분", "tg": "물리, 지구과학", "cs": "기하, 수학과제탐구, 심화수학, 사회문제탐구, 물리학실험, 물Ⅱ, 화Ⅱ, 생Ⅱ, 지Ⅱ, 일본어", "topic": "바퀴 종류별 비행기 제동거리 측정", "reason": "공대 진학을 위해 가장 유리하고 도움이 될 과목으로 선택."}, {"major": "스포츠과학부", "track": "art", "gs": "국어", "tg": "생활과 윤리, 윤리와 사상(쌍윤)", "cs": "생윤, 윤사, 한국지리", "topic": "생활과 윤리 · 윤리와 사상", "reason": "죽어라 공부해 좋은 성과를 낸 과목. 담당 선생님과 추가 방학 강의, 재수 때도 질답까지 한 과목이라."}, {"major": "수학과", "track": "sci", "gs": "언어와 매체 · 미적분", "tg": "생명과학Ⅰ, 지구과학Ⅰ", "cs": "미적분, 확통, 기하, 물·화·생·지Ⅰ·Ⅱ, 생명과학실험", "topic": "사이언스데이 · NCCPC", "reason": "교과서·책·인터넷에서 접한 실험이나 평소 궁금증을 바탕으로 직접 실험을 계획·수행하고 결과를 분석·고찰하는 과정이 매우 유익하고 뜻깊었음."}, {"major": "사학과", "track": "hum", "gs": "언어와 매체 · 확률과 통계", "tg": "동아시아사, 세계사", "cs": "한국지리, 세계사, 고전읽기, 교육학, 여행지리, 동아시아사, 생활과 윤리, 생활과 과학 등", "topic": "주령구의 전개도를 그려 각 면이 나올 확률 계산(확통 수행) / 7광구 소논문(동아리)", "reason": "항상 사학과를 염두에 두고 선택함."}, {"major": "융합디자인학과", "track": "art", "gs": "언매 · 미적", "tg": "생활과 윤리, 윤리와 사상", "cs": "생윤, 윤사, 사문, 정법, 언매, 화작, 문학, 독서, 확통, 일본어", "topic": "윤리와 사상", "reason": "평소 철학·윤리학에 관심이 있어 가장 재미있게 수강."}, {"major": "휴먼서비스학부 (청소년학과·사회복지학과)", "track": "soc", "gs": "화법과 작문 · 확률과 통계", "tg": "생활과 윤리, 사회문화", "cs": "국·수·영 기본 + 심화국어, 심화수학, 생명Ⅰ·Ⅱ, 생명과학실험, 윤리와 사상, 생활과 윤리, 보건, 세계문제와 미래사회", "topic": "뇌파와 삼각함수 사이의 연관성 (수Ⅱ)", "reason": "문과지만 뇌파(생명과학)와 푸리에 변환(수학)을 융합해 보고서를 낸 게 뿌듯했고, 심리학과 진로에 융합적 지식을 갖췄음을 보여줄 수 있어 기억에 남음."}, {"major": "중등특수교육학과", "track": "edu", "gs": "화작 · 확통", "tg": "세계지리, 세계사", "cs": "교육학, 한국지리, 세계지리, 한문, 고전문학읽기, 심화영어, 세계사, 동아시아사, 일본어", "topic": "한일 대륙붕 공동개발에 대한 국제법적 고찰 / 난민 발생의 문제점과 제도적 모색", "reason": "세계사·세계지리·정치와 법·동아시아사와 연관지어 시각을 넓히고자 함."}, {"major": "경제금융학부", "track": "soc", "gs": "언어와 매체 · 확률과 통계", "tg": "정치와 법, 사회문화", "cs": "(2학년) 경제, 기하, 사회문제탐구, 사회문화, 인공지능수학, 정보과학 / (3학년) 국제경제, 미적분, 확통, 생활과 과학, 세계문제와 미래사회, 심화국어, 심화수학, 언매, 정치와 법", "topic": "설문조사에서 불성실 응답을 줄이는 방법 탐구", "reason": "직접 실험법을 사용한 활동이라 기억에 남고, 원인 분석에 그치지 않고 해결방안까지 탐구해서 기억에 남음."}, {"major": "영어영문학과", "track": "hum", "gs": "언어와 매체 · 확률과 통계", "tg": "생활과 윤리, 윤리와 사상", "cs": "윤리와 사상, 사회문화, 세계사, 사회문제와 탐구, 생윤, 정치와 법, 언매, 심화국어, 심화영어, 영어권문화, 확통, 한문Ⅱ", "topic": "『피그말리온』을 통해 분석한 계층의 언어 발음 차이", "reason": "진로와 관련해 가장 깊이 있게 탐구한 주제이고, 실제 대학 면접에서 활용된 가장 중요한 탐구."}, {"major": "화학공학과", "track": "sci", "gs": "언어와 매체 · 확률과 통계", "tg": "사회문화", "cs": "문학, 수Ⅰ·Ⅱ, 영Ⅰ·Ⅱ, 한국지리, 사회문화, 세계사, 독서, 기하, 사회문제탐구, 미술창작, 언매, 확통, 영어독해와작문, 동아시아사, 정법, 철학, 고전과 윤리, 세계문제와 미래사회, 생활과 과학, 한문Ⅱ", "topic": "세계문제와 미래사회 — 인간 연대 / 사회문제탐구 — 촉법소년 연령", "reason": "나의 기억에 가장 남았기 때문."}, {"major": "사회과학계열", "track": "soc", "gs": "언매 · 확통", "tg": "정치와 법, 사회문화", "cs": "물·화·생·지Ⅰ, 물Ⅱ·화Ⅱ·지Ⅱ, 물리학실험, 언매, 미적, 확통", "topic": "마이스너 효과 실험", "reason": "당시 초전도가 사회적으로 뜨거운 주제였는데, 이처럼 현실에서 화제인 주제를 고르면 좋을 것 같아서."}, {"major": "항공관제물류학부", "track": "sci", "gs": "화법과 작문 · 미적분", "tg": "화학Ⅰ, 지구과학Ⅰ", "cs": "물Ⅰ·화Ⅰ·생Ⅰ·지Ⅰ, 물Ⅱ·화Ⅱ·생Ⅱ·지Ⅱ, 미적분, 기하, 확통, 일본어, 물리학실험", "topic": "생명과학 — 생물 종 분류 실험", "reason": "종 분류 실험 때 실험 재료로 쓴 과자를 다 같이 먹은 기억이 있어 가장 기억에 남음. 당시 과학중점반이라 모든 선택 과목을 다 들어야 했음."}, {"major": "패션의류학과", "track": "art", "gs": "화법과 작문 · 확률과 통계", "tg": "한국지리, 세계지리", "cs": "(2학년) 일본어, 사회문화, 한국지리 / (3학년) 세계지리, 확통", "topic": "세계지리 — 사막 기후 의복 개발 프로젝트", "reason": "사회문화·한국지리는 가장 많은 친구가 선택해서, 세계지리·확통은 그나마 잘할 수 있어서."}, {"major": "자율전공학부", "track": "soc", "gs": "화작 · 확통", "tg": "윤리와 사상, 생활과 윤리", "cs": "확통, 사문, 생윤, 윤사, 화작, 세계문제와 미래사회, 사회문제탐구, 생활과 과학, 고전과 윤리, 고전읽기", "topic": "토크인 — 포모(FOMO) 현상 탐구", "reason": "막연히 사회 분야를 좋아한다 생각했는데, 이 현상을 탐구하고 나서 갈피를 잡았고 다른 분야로 넘어갈 좋은 연결고리가 됨."}, {"major": "철학과", "track": "hum", "gs": "화법과 작문 · 미적분", "tg": "생활과 윤리, 윤리와 사상", "cs": "문학, 독서, 수Ⅰ·Ⅱ, 영Ⅰ·Ⅱ, 윤리와 사상, 한국지리, 세계사, 화작, 미적, 영어독해와작문, 생윤, 정치와 법, 체육탐구", "topic": "윤리와 사상·수학 연계 — 확률의 역설 탐구", "reason": "윤리가 너무 하고 싶었음."}];
+const TR = {hum:"인문", soc:"사회", sci:"자연·공학", med:"의약·생명", edu:"교육", art:"예체능"};
+const TR_CLASS = {hum:"t-hum",soc:"t-soc",sci:"t-sci",med:"t-med",edu:"t-edu",art:"t-art"};
+let fTr="전체", fQ="";
+
+function buildChips(){
+  const trWrap=document.getElementById("tr-chips");
+  const mk=(l,c,a)=>`<button class="chip" data-val="${l}" aria-pressed="${a}">${l}<span class="n">${c}</span></button>`;
+  trWrap.innerHTML=mk("전체",DATA.length,true)+Object.keys(TR).map(k=>mk(TR[k],DATA.filter(d=>d.track===k).length,false)).join("");
+  trWrap.querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>{fTr=c.dataset.val;trWrap.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",x===c));render();}));
+}
+function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function cardHTML(d){
+  return `<article class="card">
+    <div class="card-top">
+      <span class="track ${TR_CLASS[d.track]}">${TR[d.track]}</span>
+    </div>
+    <div>
+      <p class="major">${esc(d.major)}</p>
+    </div>
+    <div class="topic-block">
+      <span class="topic-label">기억에 남는 탐구</span>
+      <p class="topic">${esc(d.topic)}</p>
+      <p class="reason">${esc(d.reason)}</p>
+    </div>
+    <div class="meta">
+      <div class="row"><span class="k">수능 국·수</span><span class="v">${esc(d.gs)}</span></div>
+      <div class="row"><span class="k">수능 탐구</span><span class="v">${esc(d.tg)}</span></div>
+      <details class="courses"><summary>2·3학년 이수 과목 보기</summary><div class="courses-body">${esc(d.cs)}</div></details>
+    </div>
+  </article>`;
+}
+function render(){
+  const q=fQ.trim().toLowerCase();
+  const list=DATA.filter(d=>{
+    if(fTr!=="전체"&&TR[d.track]!==fTr)return false;
+    if(q){const blob=(d.major+" "+d.topic+" "+d.reason+" "+d.gs+" "+d.tg+" "+d.cs).toLowerCase();if(!blob.includes(q))return false;}
+    return true;
+  });
+  document.getElementById("grid").innerHTML=list.map(cardHTML).join("");
+  document.getElementById("empty").style.display=list.length?"none":"block";
+  document.getElementById("count").textContent=list.length;
+}
+document.getElementById("search").addEventListener("input",e=>{fQ=e.target.value;render();});
+buildChips();render();
+</script>
+</body>
+</html>
